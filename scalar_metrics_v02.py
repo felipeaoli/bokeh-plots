@@ -75,7 +75,7 @@ class LoadMetrics:
         """
         import yaml
         cam, exp, night = self.cam, self.exp, self.night
-        qlf_folder = '/home/felipe/'
+        qlf_folder = '/home/foliveira/'
         exp_folder = 'quicklook/spectro/redux/exposures/'
         aux = '{}{}{}/{}/{}{}-{}-{}.yaml'.format(qlf_folder,exp_folder, night, exp, self.prfx, qa, cam,exp)
         try:
