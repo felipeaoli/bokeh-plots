@@ -7,11 +7,16 @@ from __future__ import division
 
 class LoadMetrics:
     """ Read values from the yaml's files and return an alert (NORMAL, WARN or ALARM)
-    associated to a given metric.
+    associated to a given metric. It also attributes a color for a wedge in the interface 
 
-    Functions:     Load_qa( qa, cam, exp, night)     Load_metrics_n_tests(self)
-    ----------     keys_from_scalars(self,  params_keys)         test_ranges(self, qa, kind_of_test)
-                   qa_status(self, qa)                  PARTIALstep_color(self, step_name)
+    Functions:
+    ----------     
+        Load_qa(self, qa)
+        Load_metrics_n_tests(self)
+        keys_from_scalars(self,  params_keys)
+        test_ranges(self, qa, kind_of_test)
+        qa_status(self, qa)
+        PARTIALstep_color(self, step_name)
     """
     prfx = 'ql-'
     qa_name    = ['countpix', 'getbias', 'getrms'
@@ -62,12 +67,12 @@ class LoadMetrics:
         try: #ff
             self.metrics, self.tests = self.Load_metrics_n_tests()
         except: #ff
-           print("Coudnt load metrics and tests" )
+           print("Could not load metrics and tests" )
 
 
         
         
-    def Load_qa(self, qa, cam, exp, night):
+    def Load_qa(self, qa):
         """loads a single yaml file ( rather slow!)
          
         Arguments
@@ -98,14 +103,15 @@ class LoadMetrics:
 
     
     def Load_metrics_n_tests(self):
-        """ TO CORRECT: arguments 
-        Gathers all the yaml info in 'METRICS' and 'PARAMS'
+        """ Gathers all the yaml info in 'METRICS' and 'PARAMS'
         and returns them in individual dictionaries
         Uses: Load_qa
+
         Arguments
         ---------
         qa_name: lst or str
             A name or list of names of qa's
+
         Return
         ------
         dic_met: dictionary
@@ -120,13 +126,13 @@ class LoadMetrics:
         
         if isinstance(self.qa_name, list):
             qa_list = self.qa_name
-        elif isinstance(self.qa_name, string):
+        elif isinstance(self.qa_name, string): # for a single qa_name
             qa_list = [self.qa_name]
         else:
             return "Invalid QA format"
             
         for i in qa_list:
-            aux = self.Load_qa(i, self.cam, self.exp, self.night)
+            aux = self.Load_qa(i)
             if aux == None:
                 dic_met.update({i: aux})
                 dic_tst.update({i: aux})
@@ -137,14 +143,15 @@ class LoadMetrics:
 
 
     def keys_from_scalars(self,  params_keys):    
-        """Translates QA and test in yaml file 
-        to the keys 'warn' and 'alarm'.
+        """ Finds the equivalente alert keys in yaml for a metric.
+
         Arguments
         ---------
         qa_name: list
             A list of str w/ the QA names
         params_keys: list
             List of list of str w/ keys names contained in METRICS.    
+
         Return
         -------
         xx: dict
@@ -177,15 +184,15 @@ class LoadMetrics:
     
     
     def test_ranges(self, qa, kind_of_test):
-        """ TO CORRECT: qa_name
-        Read the yaml file and returns the range of a given test
-        Dependencies: qa_name, params_keys, keys_from_scalats
+        """ Returns the range of a given test from the yaml file.
+
         Arguments
         ---------
         qa: ?list
             ?d
         kind_of_test: ?list
             ?d
+
         Return
         ------
         test_range: list
@@ -224,10 +231,12 @@ class LoadMetrics:
 
     def qa_status(self, qa):
         """Returns the alert of a given qa
-        uses my_metrics, metric_dict
+
         Arguments
         ---------
-        Return
+        qa: str
+       
+         Return
         ------
         status: str
             Possible values: 'NORMAL', 'WARN' or 'ALARM'
@@ -294,8 +303,6 @@ class LoadMetrics:
                 print ('QL FAILURE')
                 steps_status.append('FAILURE')
             else:
-                #print('asdsaf')
-                #print(i, self.qa_status('snr'))
                 fff = self.qa_status(i)
                 steps_status.append(fff)
                 #pass
