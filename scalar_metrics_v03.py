@@ -241,7 +241,9 @@ class LoadMetrics:
         status: str
             Possible values: 'NORMAL', 'WARN' or 'ALARM'
         """
-        #self.qa = qa      
+        #self.qa = qa  
+        if qa == 'xwsigma':
+            print('corrigir aqui')    
         alarm = self.test_ranges(qa,'alarm')
         warn  = self.test_ranges(qa,'warn')
         val   = self.metrics[qa][self.metric_dict[qa]]
@@ -249,9 +251,6 @@ class LoadMetrics:
         
         if isinstance(val,float) or isinstance(val, int):
             pass
-        #elif isinstance(val, list): #check!
-        #    print('')
-        #    pass
         else:
             raise Exception ("Invalid variable type", val)
         
