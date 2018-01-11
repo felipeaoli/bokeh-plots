@@ -8,6 +8,7 @@ from __future__ import division
 class LoadMetrics:
     """ Read values from the yaml's files and return an alert (NORMAL, WARN or ALARM)
     associated to a given metric. It also attributes a color for a wedge in the interface 
+    CORRECTING WXSIGMA
 
     Functions:
     ----------     
@@ -59,9 +60,9 @@ class LoadMetrics:
         
         # QA tests available for while PARTIAL
         self.metric_qa_list  = ['getbias','getrms','skycont', 'countbins', 'countpix', 'snr'
-                                ,'skyresid', 'skypeak',  'integ']#,  'xsigma', 'wsigma'   ] #THIS LINE : TB CHECKED
+                                ,'skyresid', 'skypeak',  'integ',  'xsigma', 'wsigma'   ] #THIS LINE : TB CHECKED
         self.metric_key_list = ['BIAS','RMS_OVER','SKYCONT','NGOODFIBERS', 'NPIX_LOW', 'ELG_FIDMAG_SNR' #changed RMS_OVER_AMP
-                                ,'MED_RESID', 'SUMCOUNT_RMS', 'MAGDIFF_AVG']#, XSIGMA AND WSIGMA? ]#THIS LINE : TB CHECKED
+                                ,'MED_RESID', 'SUMCOUNT_RMS', 'MAGDIFF_AVG', 'XSHIFT', 'WSHIFT']#, XSIGMA AND WSIGMA? ]#THIS LINE : TB CHECKED
         self.metric_dict     = dict(zip(self.metric_qa_list, self.metric_key_list))
 
         try: #ff
@@ -243,10 +244,38 @@ class LoadMetrics:
         """
         #self.qa = qa  
         if qa == 'xwsigma':
-            print('corrigir aqui')    
-        alarm = self.test_ranges(qa,'alarm')
-        warn  = self.test_ranges(qa,'warn')
-        val   = self.metrics[qa][self.metric_dict[qa]]
+            alarm_x = self.test_ranges('xsigma','alarm')
+            warn_x = self.test_ranges('xsigma','warn')
+            val_x = self.metrics[qa][self.metric_dict['xsigma']]
+
+            alarm_w = self.test_ranges('wsigma','alarm')
+            warn_w = self.test_ranges('wsigma','warn')
+            val_w = self.metrics[qa][self.metric_dict['wsigma']]
+
+            if isinstance(val_w,float) or isinstance(val_w, int) or isinstance(val_x,float) or isinstance(val_x, int):
+                pass
+            else:
+                raise Exception ("Invalid variable type in metrics")
+        
+            if( val_w <= alarm_w[0] or val_w >= alarm_w[1] or val_x <= alarm_x[0] or val_x >= alarm_x[1]): 
+            # ">=" comes from pipeline definition!
+                return 'ALARM'
+            elif(val_x <= warn_x[0] or val_x >= warn_x[1] or val_w <= warn_w[0] or val_w >= warn_w[1] ):
+                return 'WARN' 
+            else:
+                return 'NORMAL' 
+
+            print('corrigir aqui dividir em qax qaw',
+                        'testar os respectivos alerts')
+        elif(qa == 'xsigma' or qa == 'wsigma'):
+            print('Please, use xwsigma')
+            return 'Error'
+
+        # Original
+        else:               
+            alarm = self.test_ranges(qa,'alarm')
+            warn  = self.test_ranges(qa,'warn')
+            val   = self.metrics[qa][self.metric_dict[qa]]
         #dbprint(qa, self.metric_dict[qa])
         
         if isinstance(val,float) or isinstance(val, int):
@@ -260,6 +289,7 @@ class LoadMetrics:
             return 'WARN' 
         else:
             return 'NORMAL'
+
 
        
     def PARTIALstep_color(self, step_name):
@@ -288,11 +318,10 @@ class LoadMetrics:
         #                    'fiberfl':['skycont'],
         #                    'skysubs':['snr']}
 
-        PARTIALsteps_dic = {'preproc':['countpix', 'getbias','getrms'],
+        PARTIALsteps_dic = {'preproc':['countpix', 'getbias','getrms', 'xwsigma'],
                             'extract':['countbins'],
                             'fiberfl':['integ','skycont','skypeak','skyresid'],
                             'skysubs':['snr']}
-
         steps_status = []
 
         print ( self.error    )
@@ -305,8 +334,7 @@ class LoadMetrics:
                 fff = self.qa_status(i)
                 steps_status.append(fff)
                 #pass
-
-        
+       
         #for i in PARTIALsteps_dic[self.step_name]:
         #    steps_status.append(self.qa_status(i))
         print( 'Steps_status:', steps_status)
@@ -327,7 +355,7 @@ class LoadMetrics:
 
 
         
-        
+# *************************************************************************        
 if __name__=="__main__":
     #test 03 colors for wedges:
 
