@@ -60,11 +60,13 @@ class LoadMetrics:
         # This is True if the pipeline didn't generate some yaml file
         self.error = dict(zip(self.qa_name, ['False']*len(self.qa_name)) )
         
+        print('check *rms_over *bias *SUMCOUNT_RMS shouldbe SUMCOUNT_MED_SKY'
+                 +'Resigf  skyresid- residrms')
         # QA tests and keys to respective values
         self.metric_qa_list  = ['getbias','getrms','skycont', 'countbins', 'countpix', 'snr'
                                 ,'skyresid', 'skypeak',  'integ',  'xsigma', 'wsigma'   ] #THIS LINE : TB CHECKED
-        self.metric_key_list = ['BIAS','RMS_OVER','SKYCONT','NGOODFIBERS', 'NPIX_LOW', 'ELG_FIDMAG_SNR' #changed RMS_OVER_AMP
-                                ,'MED_RESID', 'SUMCOUNT_RMS', 'MAGDIFF_AVG', 'XSHIFT', 'WSHIFT']
+        self.metric_key_list = ['BIAS','RMS_OVER','SKYCONT','NGOODFIBERS', 'NPIX_LOW', 'ELG_FIDMAG_SNR'
+                                ,'RESID_RMS', 'SUMCOUNT_MED_SKY', 'MAGDIFF_AVG', 'XSHIFT', 'WSHIFT']
         self.metric_dict     = dict(zip(self.metric_qa_list, self.metric_key_list))
 
         try: #ff
