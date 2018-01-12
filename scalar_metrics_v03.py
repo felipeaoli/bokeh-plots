@@ -262,7 +262,7 @@ class LoadMetrics:
             if isinstance(val_w,float) or isinstance(val_w, int) or isinstance(val_x,float) or isinstance(val_x, int):
                 pass
             else:
-                raise Exception ("Invalid variable type in metrics")
+                raise Exception ("Invalid variable type in xwsigma: {} or {}".format(val_x, val_w))
         
             if( val_w <= alarm_w[0] or val_w >= alarm_w[1] or val_x <= alarm_x[0] or val_x >= alarm_x[1]): 
             # ">=" comes from pipeline definition!
