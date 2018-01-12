@@ -286,7 +286,8 @@ class LoadMetrics:
         if isinstance(val,float) or isinstance(val, int):
             pass
         else:
-            raise Exception ("Invalid variable type", val)
+            self.error.update({qa:True})
+            raise Exception ("Invalid variable type:{} in".format(val), qa)
         
         if ( val <= alarm[0] or val >= alarm[1]): # ">=" comes from pipeline definition!
             return 'ALARM'
