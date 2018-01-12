@@ -12,13 +12,14 @@ class LoadMetrics:
 
     Functions:
     ----------     
-        Load_qa(self, qa)
-        Load_metrics_n_tests(self)
-        keys_from_scalars(self,  params_keys)
-        test_ranges(self, qa, kind_of_test)
-        qa_status(self, qa)
-        PARTIALstep_color(self, step_name)
+        Load_qa(qa)
+        Load_metrics_n_tests()
+        keys_from_scalars(  params_keys)
+        test_ranges(qa, kind_of_test)
+        qa_status(qa)
+        step_color( step_name)
     """
+    silent = 'False' # Defining a silent mode
     prfx = 'ql-'
     qa_name    = ['countpix', 'getbias', 'getrms'
                    , 'xwsigma', 'countbins', 'integ'
@@ -49,27 +50,28 @@ class LoadMetrics:
                 'xwsigma':  ['B_PEAKS',  'R_PEAKS',  'XSHIFT_ALARM_RANGE', 'WSHIFT_ALARM_RANGE'
                              ,  'Z_PEAKS',  'WSHIFT_WARN_RANGE',  'XSHIFT_WARN_RANGE']}
     
-    # This is True if the pipeline didn't generate some yaml file
-    error = dict(zip(qa_name, ['False']*len(qa_name))) 
+ 
     
 
     def __init__(self, cam,exp,night):
         self.cam   = cam
         self.exp   = exp
         self.night = night
+        # This is True if the pipeline didn't generate some yaml file
+        self.error = dict(zip(self.qa_name, ['False']*len(self.qa_name)) )
         
-        # QA tests available for while PARTIAL
+        # QA tests and keys to respective values
         self.metric_qa_list  = ['getbias','getrms','skycont', 'countbins', 'countpix', 'snr'
                                 ,'skyresid', 'skypeak',  'integ',  'xsigma', 'wsigma'   ] #THIS LINE : TB CHECKED
         self.metric_key_list = ['BIAS','RMS_OVER','SKYCONT','NGOODFIBERS', 'NPIX_LOW', 'ELG_FIDMAG_SNR' #changed RMS_OVER_AMP
-                                ,'MED_RESID', 'SUMCOUNT_RMS', 'MAGDIFF_AVG', 'XSHIFT', 'WSHIFT']#, XSIGMA AND WSIGMA? ]#THIS LINE : TB CHECKED
+                                ,'MED_RESID', 'SUMCOUNT_RMS', 'MAGDIFF_AVG', 'XSHIFT', 'WSHIFT']
         self.metric_dict     = dict(zip(self.metric_qa_list, self.metric_key_list))
 
         try: #ff
             self.metrics, self.tests = self.Load_metrics_n_tests()
         except: #ff
-           print("Could not load metrics and tests" )
-
+            print("Could not load metrics and tests" )
+        
 
         
         
@@ -93,11 +95,13 @@ class LoadMetrics:
         aux = '{}{}{}/{}/{}{}-{}-{}.yaml'.format(qlf_folder,exp_folder, night, exp, self.prfx, qa, cam,exp)
         try:
             y2 = yaml.load(open(aux, "r"))
-            print ('{} loaded'.format(qa))
+            print ('loading {}'.format(qa))
+            self.error.update({qa:False})
+
         except:
             y2 = None
-            print (qa)
-            self.error[qa]='True'
+            print ('{}: yaml not found'.format(qa) )
+            #self.error.update({qa:True})
         print ( aux )
 
         return y2 
@@ -137,6 +141,7 @@ class LoadMetrics:
             if aux == None:
                 dic_met.update({i: aux})
                 dic_tst.update({i: aux})
+                self.error.update({i:True})
             else:
                 dic_met.update({i: aux['METRICS']})
                 dic_tst.update({i: aux['PARAMS']})
@@ -237,7 +242,7 @@ class LoadMetrics:
         ---------
         qa: str
        
-         Return
+        Return
         ------
         status: str
             Possible values: 'NORMAL', 'WARN' or 'ALARM'
@@ -265,8 +270,6 @@ class LoadMetrics:
             else:
                 return 'NORMAL' 
 
-            print('corrigir aqui dividir em qax qaw',
-                        'testar os respectivos alerts')
         elif(qa == 'xsigma' or qa == 'wsigma'):
             print('Please, use xwsigma')
             return 'Error'
@@ -292,7 +295,7 @@ class LoadMetrics:
 
 
        
-    def PARTIALstep_color(self, step_name):
+    def step_color(self, step_name):
         """ Colors for the wedges in a given step of the pipeline
         FOR WHILE PARTIAL!!!: Until we find all scalars
         Missing: Xsigma and Wsigma
@@ -303,8 +306,7 @@ class LoadMetrics:
         Return
         ------
         color: str
-            The color that a given wedge should have in the python 
-            standard string
+            Wedge color Alert
         """
         self.step_name = step_name
         steps_list = ['preproc', 'extract', 'fiberfl', 'skysubs']
@@ -313,26 +315,22 @@ class LoadMetrics:
         if self.step_name not in steps_list:
             return "Invalid step: please return a value in {}".format(steps_list)
     
-        #PARTIALsteps_dic = {'preproc':['countpix', 'getbias','getrms'],
-        #                    'extract':['countbins'],
-        #                    'fiberfl':['skycont'],
-        #                    'skysubs':['snr']}
-
-        PARTIALsteps_dic = {'preproc':['countpix', 'getbias','getrms', 'xwsigma'],
-                            'extract':['countbins'],
-                            'fiberfl':['integ','skycont','skypeak','skyresid'],
-                            'skysubs':['snr']}
+        steps_dic = {'preproc':['countpix', 'getbias','getrms', 'xwsigma'],
+                     'extract':['countbins'],
+                     'fiberfl':['integ','skycont','skypeak','skyresid'],
+                     'skysubs':['snr']}
         steps_status = []
 
-        print ( self.error    )
-        for i in PARTIALsteps_dic[self.step_name]:
+        print ( 'init_error', self.error    )
+        for i in steps_dic[self.step_name]:
             print (i, self.error[i])
-            if (self.error[i]==True):
+            if(self.error[i]):
                 print ('QL FAILURE')
                 steps_status.append('FAILURE')
+                
             else:
-                fff = self.qa_status(i)
-                steps_status.append(fff)
+                aux1 = self.qa_status(i)
+                steps_status.append(aux1)
                 #pass
        
         #for i in PARTIALsteps_dic[self.step_name]:
@@ -344,7 +342,7 @@ class LoadMetrics:
         
         elif any( x == 'ALARM'  for x in steps_status):
             color =  "red"
-            print ( color )
+            print( color )
         elif any( x == 'WARN'  for x in steps_status):
             color =  "yellow"
             print( color )
@@ -363,7 +361,7 @@ if __name__=="__main__":
 
     lm = LoadMetrics(cam, exp, night)
 
-    print(lm.PARTIALstep_color('preproc'))
+    print(lm.step_color('preproc'))
 
     """    
     cam, exp, night = 'z0', '00000003', '20190101'
