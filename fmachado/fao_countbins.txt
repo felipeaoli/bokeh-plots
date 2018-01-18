@@ -154,7 +154,7 @@ plow.quad(top='hist', bottom='bottom', left='left', right='right',
        hover_fill_color='red', hover_line_color='black', hover_alpha=0.8)
 
 #plow.legend.location = "top_left"
-my_layout = gridplot( [phi,pmed,plow,None], ncols=2, plot_width=600, plot_height=600)
+layout = gridplot( [phi,pmed,plow,None], ncols=2, plot_width=600, plot_height=600)
 
 
 # End of Bokeh Block
