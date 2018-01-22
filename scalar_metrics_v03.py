@@ -1,8 +1,8 @@
 from __future__ import division
-# Scalar_metrics.py version 05-Dec-2017
+#
+# Scalar_metrics.py version 22-Jan-2018
 # To do: Finish the documentation
-#        python3 and matplotlib2 (cm.jet)
-#    ==> PARTIALsteps_color: It only will be complete when we find all the ALERT criteria!
+#    ==> All steps_color 
 #    ==> Fixed for the case in which the pipeline breaks 
 
 class LoadMetrics:
