@@ -282,12 +282,16 @@ class LoadMetrics:
             warn  = self.test_ranges(qa,'warn')
             val   = self.metrics[qa][self.metric_dict[qa]]
         #dbprint(qa, self.metric_dict[qa])
-        
+
+        if val ==[]:
+            return 'ALARM'
+
         if isinstance(val,float) or isinstance(val, int):
             pass
         else:
             self.error.update({qa:True})
             raise Exception ("Invalid variable type:{} in".format(val), qa)
+
         
         if ( val <= alarm[0] or val >= alarm[1]): # ">=" comes from pipeline definition!
             return 'ALARM'
