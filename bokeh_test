@@ -1,0 +1,15 @@
+
+    qagetrms  ok
+    footprint   ok
+    qaskypeak   key error'SUMCOUNT_RMS_AMP'
+    qacountpix   KeyError: 'NPIX_LOW_AMP'
+    qaxwsigma   ok  -- corrected with obj type #must update!
+    qaskyresid   ok
+    qasnr        ok must update
+    qacountbins   ok must update
+    exposures  ?
+    qainteg      ValueError: malformed node or string: <_ast.Name object at 0x7f6ec9ed9c88>/qainteg/main.py", line 104, in <module>
+
+    monitor  ok
+    qagetbias ok
+

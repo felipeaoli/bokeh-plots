@@ -1,0 +1,212 @@
+1 ==============================================================================
+      ----- INITIALIZE:
+       --- metrics ---
+              BIAS_AMP     len(4)         list
+
+              DIFF1SIG    5.8e-02        float
+              DIFF2SIG    6.3e-02        float
+              DIFF3SIG    6.6e-02        float
+
+              DATA5SIG          1          int
+                  BIAS    1.6e-01        float
+
+          MEANBIAS_ROW  len(4128)         list
+             BIAS_STAT     NORMAL          str
+
+         --- param ---
+     BIAS_NORMAL_RANGE     len(2)         list
+           PERCENTILES     len(3)         list
+       BIAS_WARN_RANGE     len(2)         list
+
+
+2 ==============================================================================
+         ----- PREPROC:
+       --- metrics ---
+             NOISE_AMP     len(4)         list
+               RMS_AMP     len(4)         list
+           EXPNUM_WARN     len(0)         list
+
+              NPIX_LOW     325687          int
+             NPIX_HIGH      37856          int
+
+              NPIX_AMP     len(4)         list
+         NPIX_HIGH_AMP     len(4)         list
+
+                   RMS    6.8e+00        float
+               RMS_ROW  len(8256)         list
+
+                 NOISE    7.3e+00        float
+
+                    RA  len(5000)         list
+                   DEC  len(5000)         list
+
+                XSIGMA   len(500)         list
+                WSIGMA   len(500)         list
+
+               XWSIGMA     len(2)         list
+
+                XSHIFT    0.0e+00        float
+                WSHIFT    0.0e+00        float
+
+            XSHIFT_AMP     len(0)         list
+            WSHIFT_AMP     len(0)         list
+
+            XSIGMA_AMP     len(4)         list
+            WSIGMA_AMP     len(4)         list
+
+            XSIGMA_MED    1.2e+00        float
+            WSIGMA_MED    1.4e+00        float
+
+            WSHIFT_FIB     len(0)         list
+            XSHIFT_FIB     len(0)         list
+
+             NPIX_STAT     NORMAL          str
+          XWSIGMA_STAT     NORMAL          str
+            NOISE_STAT     NORMAL          str
+
+         --- param ---
+               B_PEAKS     len(3)         list
+  XWSIGMA_NORMAL_RANGE     len(2)         list
+     NPIX_NORMAL_RANGE     len(2)         list
+    NOISE_NORMAL_RANGE     len(2)         list
+                 CUTLO          3          int
+               R_PEAKS     len(5)         list
+                 CUTHI         10          int
+       NPIX_WARN_RANGE     len(2)         list
+               Z_PEAKS     len(4)         list
+    XWSIGMA_WARN_RANGE     len(2)         list
+      NOISE_WARN_RANGE     len(2)         list
+
+
+3 ==============================================================================
+   ----- BOXCAREXTRACT:
+       --- metrics ---
+         NBINSHIGH_AMP     len(4)         list
+          NBINSLOW_AMP     len(4)         list
+          NBINSMED_AMP     len(4)         list
+
+              NGOODFIB        500          int
+          NBINSHI_TEMP     len(0)         list
+
+              NBINSLOW   len(500)         list
+              NBINSMED   len(500)         list
+             NBINSHIGH   len(500)         list
+
+                   DEC  len(5000)         list
+                    RA  len(5000)         list
+
+         NGOODFIB_STAT     NORMAL          str
+
+         --- param ---
+                 CUTHI        500          int
+                CUTMED        250          int
+                 CUTLO        100          int
+   NGOODFIB_WARN_RANGE     len(2)         list
+ NGOODFIB_NORMAL_RANGE     len(2)         list
+
+
+4 ==============================================================================
+----- APPLYFIBERFLAT_QL:
+       --- metrics ---
+          SKYCONT_STAT     NORMAL          str
+        PEAKCOUNT_STAT     NORMAL          str
+
+         SKYCONT_FIBER    len(38)         list
+            SKYFIBERID    len(38)         list
+
+             PEAKCOUNT   len(500)         list
+     PEAKCOUNT_MED_SKY     len(0)         list
+     PEAKCOUNT_RMS_SKY    1.1e+00        float
+         PEAKCOUNT_RMS    7.9e+00        float
+
+                   DEC  len(5000)         list
+                    RA  len(5000)         list
+
+               SKYCONT    2.2e+02        float
+           SKYCONT_AMP     len(4)         list
+
+
+
+         --- param ---
+               B_PEAKS     len(3)         list
+                R_CONT     len(4)         list
+  PEAKCOUNT_WARN_RANGE     len(2)         list
+               R_PEAKS     len(5)         list
+PEAKCOUNT_NORMAL_RANGE     len(2)         list
+                Z_CONT     len(4)         list
+  SKYCONT_NORMAL_RANGE     len(2)         list
+               Z_PEAKS     len(6)         list
+    SKYCONT_WARN_RANGE     len(2)         list
+                B_CONT     len(4)         list
+
+
+5 ==============================================================================
+       ----- SKYSUB_QL:
+       --- metrics ---
+        ELG_FITRESULTS     len(2)         list
+       STAR_FITRESULTS     len(2)         list
+        QSO_FITRESULTS     len(2)         list
+        LRG_FITRESULTS     len(2)         list
+
+           QSO_SNR_MAG     len(2)         list
+           LRG_SNR_MAG     len(2)         list
+          STAR_SNR_MAG     len(2)         list
+           ELG_SNR_MAG     len(2)         list
+            MEDIAN_SNR   len(500)         list
+      NUM_NEGATIVE_SNR          0          int
+
+          STAR_FIBERID    len(12)         list
+           SKY_FIBERID    len(38)         list
+           ELG_FIBERID   len(338)         list
+           LRG_FIBERID    len(64)         list
+           STD_FIBERID    len(12)         list
+           QSO_FIBERID    len(48)         list
+
+       MED_RESID_FIBER    len(38)         list
+             SNR_RESID   len(462)         list
+             RESID_PER     len(2)         list
+             MED_RESID    2.9e-01        float
+
+           MAGDIFF_TGT     len(4)         list
+            FIDSNR_TGT     len(4)         list
+
+       MAGDIFF_AVG_AMP     len(1)         list
+         INTEG_AVG_AMP     len(4)         list
+             INTEG_AVG    4.1e+06        float
+
+                    RA   len(500)         list
+                   DEC   len(500)         list
+
+                  NREJ          0          int
+
+            DEVS_EDGES   len(308)         list
+
+                 INTEG    len(12)         list ***
+
+             NBAD_PCHI         38          int
+
+            WAVELENGTH  len(2726)         list
+         WAVG_RES_WAVE  len(2726)         list
+        MED_RESID_WAVE  len(2726)         list
+
+              RESIDRMS     len(0)         list
+               DEVS_1D   len(307)         list
+               MED_SKY    2.5e+02        float
+              NSKY_FIB         38          int
+
+           FIDSNR_STAT     NORMAL          str
+          MAGDIFF_STAT     NORMAL          str
+         RESIDRMS_STAT     NORMAL          str
+
+
+         --- param ---
+     FIDSNR_WARN_RANGE     len(2)         list
+            PCHI_RESID    5.0e-02        float
+    MAGDIFF_WARN_RANGE     len(2)         list
+                FIDMAG    2.2e+01        float
+    RESID_NORMAL_RANGE     len(2)         list
+      RESID_WARN_RANGE     len(2)         list
+                BIN_SZ    1.0e-01        float
+             PER_RESID    9.5e+01        float
+   FIDSNR_NORMAL_RANGE     len(2)         list
+  MAGDIFF_NORMAL_RANGE     len(2)         list

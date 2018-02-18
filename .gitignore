@@ -1,1 +1,2 @@
-git rm --cached :teste_foliveira_2017-12-22_13:27
+git rm --cached :teste_foliveira_2017-12-22_13:\27
+git rm --cached dashboard/qa*
